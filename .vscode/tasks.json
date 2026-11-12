@@ -1,0 +1,33 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Validate Docker Compose configuration",
+			"type": "shell",
+			"command": "docker compose config",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build Docker Compose services",
+			"type": "shell",
+			"command": "docker compose build api worker",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Start Docker Compose stack",
+			"type": "shell",
+			"command": "docker compose up -d",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Verify Compose services and API",
+			"type": "shell",
+			"command": "docker compose ps && curl.exe -s http://127.0.0.1:8000/health",
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Engine | Control Center</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <div class="brandMark">W</div>
+            <div>
+                <p class="eyebrow">DISTRIBUTED SYSTEMS LAB</p>
+                <h1>Workflow Engine</h1>
+                <p>Orchestrate tasks. Observe every transition.</p>
+            </div>
+        </div>
+        <div class="headerMeta">
+            <span class="liveDot"></span>
+            <span id="connectionStatus">Checking API...</span>
+            <span class="pollingLabel">LIVE / 3s</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div>
+                <p class="eyebrow accent">CONTROL CENTER</p>
+                <h2>Build and monitor resilient workflows.</h2>
+                <p class="heroCopy">
+                    Define a dependency graph, dispatch ready tasks, and watch
+                    your workers execute in real time.
+                </p>
+            </div>
+            <div class="heroStats">
+                <span class="heroPulse"></span>
+                <strong>Queue online</strong>
+                <small>Redis + RQ workers ready</small>
+            </div>
+        </section>
+
+        <section class="stats">
+            <article class="statCard total">
+                <div class="statIcon">ALL</div>
+                <div><p>Total workflows</p><h2 id="totalWorkflows">0</h2></div>
+            </article>
+            <article class="statCard active">
+                <div class="statIcon">RUN</div>
+                <div><p>Active now</p><h2 id="activeWorkflows">0</h2></div>
+            </article>
+            <article class="statCard completed">
+                <div class="statIcon">OK</div>
+                <div><p>Completed</p><h2 id="completedWorkflows">0</h2></div>
+            </article>
+            <article class="statCard failed">
+                <div class="statIcon">ERR</div>
+                <div><p>Failed</p><h2 id="failedWorkflows">0</h2></div>
+            </article>
+        </section>
+
+        <section class="panel createPanel">
+            <div class="panelHeading">
+                <div>
+                    <p class="eyebrow accent">NEW DEPLOYMENT</p>
+                    <h2>Create workflow</h2>
+                    <p class="muted">Submit a DAG and let the scheduler handle the rest.</p>
+                </div>
+                <span class="panelNumber">01</span>
+            </div>
+            <form id="workflowForm">
+                <div class="formGrid">
+                    <div>
+                        <label for="workflowName">Workflow name</label>
+                        <input id="workflowName" required placeholder="e.g. Document Processing">
+                    </div>
+                    <div class="schemaHint">
+                        <span class="hintDot"></span>
+                        <span>Tasks run when dependencies are complete.</span>
+                    </div>
+                </div>
+                <label for="tasksJson">Tasks <span class="labelHint">JSON definition</span></label>
+                <textarea id="tasksJson" rows="9" required>{
+  "tasks": [
+    {
+      "id": "task1",
+      "name": "Collect Data",
+      "task_type": "echo",
+      "payload": {"message": "Data collected"},
+      "dependencies": []
+    },
+    {
+      "id": "task2",
+      "name": "Process Data",
+      "task_type": "echo",
+      "payload": {"message": "Data processed"},
+      "dependencies": ["task1"]
+    }
+  ]
+}</textarea>
+                <div class="formFooter">
+                    <span class="formHint">Use unique IDs and dependency names.</span>
+                    <button class="primaryButton" type="submit">
+                        <span>Submit Workflow</span><span class="buttonArrow">-&gt;</span>
+                    </button>
+                </div>
+                <p id="formMessage"></p>
+            </form>
+        </section>
+
+        <section class="panel">
+            <div class="sectionHeading">
+                <div>
+                    <p class="eyebrow accent">RUN QUEUE</p>
+                    <h2>Workflows</h2>
+                </div>
+                <button id="refreshButton" class="secondaryButton" type="button">
+                    <span class="refreshIcon">↻</span> Refresh
+                </button>
+            </div>
+            <div id="workflowList">Loading workflows...</div>
+        </section>
+
+        <section class="panel detailsPanel">
+            <div class="sectionHeading">
+                <div>
+                    <p class="eyebrow accent">OBSERVABILITY</p>
+                    <h2>Workflow details</h2>
+                </div>
+                <span class="autoRefresh">Auto-refresh enabled</span>
+            </div>
+            <div id="workflowDetails">Select a workflow to view its tasks.</div>
+        </section>
+    </main>
+
+    <footer>Distributed Workflow Engine <span>•</span> FastAPI + Redis + PostgreSQL</footer>
+    <script src="script.js"></script>
+</body>
+</html>
