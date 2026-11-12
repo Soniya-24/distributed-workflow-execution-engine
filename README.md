@@ -247,22 +247,6 @@ SQLAlchemy creates the `workflows`, `tasks`, and `execution_logs` tables during
 application startup through `Base.metadata.create_all()`. Existing workflow
 data is preserved when the application restarts.
 
-## Viva/demo talking points
-
-- **Why a DAG?** Dependencies make execution order explicit and allow
-  independent branches to run in parallel.
-- **Why Redis and RQ?** Redis decouples API requests from worker execution;
-  RQ provides a simple durable queue boundary for this demonstration.
-- **How are retries bounded?** `Task.attempts` is incremented before execution,
-  and the worker permits at most three total attempts.
-- **How is progress observed?** Task and workflow state is stored in
-  PostgreSQL, while `ExecutionLog` preserves an append-only event history.
-- **What happens after a failure?** A failed task is retried when attempts
-  remain; otherwise the scheduler marks the workflow as failed.
-- **How does the frontend stay current?** It calls the workflow and logs
-  endpoints every three seconds for the selected workflow.
-- **How does Compose help?** It starts PostgreSQL, Redis, the FastAPI API, and
-  the RQ worker with health-checked dependencies in one command.
 
 ## Troubleshooting
 
